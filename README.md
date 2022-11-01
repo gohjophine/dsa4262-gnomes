@@ -63,7 +63,7 @@ Here are all the commands needed that you can copy:
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
 pip install -r requirements.txt
 cd dsa4262-gnomes/src
-python train_model.py ../data/data.json ../data/data/data.info
+python train_model.py ../data/data.json ../data/data.info
 python make_prediction.py ../data/test_data.json
 head ../data/prediction.csv
 ```
@@ -93,7 +93,7 @@ cd dsa4262-gnomes/src
 2. Run `train_model.py` with 2 arguments (path to datasets) <br /> `python train_model.py <path to direct RNA-Seq data> <path to m6a labels>`
 
 ```
-python train_model.py ../data/data.json ../data/data/data.info
+python train_model.py ../data/data.json ../data/data.info
 ```
 
 3. Run `make_prediction.py` with 1 argument (path to direct RNA-Seq test data) <br /> `python make_prediction.py <path to direct RNA-Seq test data>`
