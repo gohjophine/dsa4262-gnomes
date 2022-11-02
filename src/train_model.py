@@ -19,6 +19,7 @@ import sys
 import pandas as pd
 import numpy as np
 import pickle
+import json
 
 from sklearn.model_selection import train_test_split, GroupShuffleSplit 
 from imblearn.over_sampling import RandomOverSampler
@@ -42,13 +43,14 @@ from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_sc
 try:
     path1 = sys.argv[1]
     path2 = sys.argv[2]
-    df1 = pd.read_json(path1, lines=True)
+    with open(path1, "r") as read_file:
+        data = [json.loads(l) for l in read_file]
     df2 = pd.read_csv(path2)
 except:
     print('Error: please input a valid direct RNA-Seq data and m6A labels paths e.g. ../data/data.json ../data/data.info')
     sys.exit(1)
 
-output_path = '../data/model.sav'
+output_path = '../data/trial_model.sav'
 
 ## read_json.ipynb ##
 
@@ -62,25 +64,22 @@ def split(x):
 
 # expand the nested dictionary
 transcript_list, position_list, sevenmers_list, reads_list = [], [], [], []
-for colname in df1.columns:
-    test = df1[colname].dropna()
-    for row in test: # each row is a dictionary
-        position, dic = split(row)
-        sevenmers, reads = split(dic)
-        
-        transcript_list.append(colname)
-        position_list.append(position)
-        sevenmers_list.append(sevenmers)
-        reads_list.append(reads)
+for line in data:
+    t, dic = split(line)
+    p, dic = split(dic)
+    s, reads = split(dic)
+    
+    for read in reads:
+        transcript_list.append(t)
+        position_list.append(p)
+        sevenmers_list.append(s)
+        reads_list.append(read)
 
-df = pd.DataFrame()
-df['transcript_id'] = transcript_list
-df['transcript_position'] = position_list
-df['sevenmers'] = sevenmers_list
-df['reads'] = reads_list
-df = df.explode('reads') # each row is one read
+df = pd.DataFrame.from_dict({'transcript_id': transcript_list, 
+                             'transcript_position': position_list, 
+                             'sevenmers': sevenmers_list, 
+                             'reads': reads_list})
 
-# Expand reads
 df1 = pd.DataFrame(df['reads'].to_list())
 df3 = pd.concat([df.reset_index(), df1], axis=1)
 df3 = df3.rename(columns = {0:'dwelling_time_1', 1:'sd_current_1', 2:'mean_current_1',
@@ -92,9 +91,6 @@ final_df = df3.drop(columns=['reads', 'index'])
 
 
 ## feature_engineering.ipynb ##
-
-# input_path = '../data/data.csv'
-# output_path = '../data/grouped_data.csv'
 
 df = final_df
 # get the difference of each features 
@@ -400,7 +396,7 @@ final_features = []
 remove_collinear_features(df, 'label', 0.9, False, final_features)
 final_features.remove('label')
 
-print("final features: \n",final_features)
+# print("final features: \n",final_features)
 X_train = X_train[final_features]
 X_train_id2 = X_train_id[final_features]
 X_test_id2 = X_test_id[final_features]
@@ -412,22 +408,10 @@ forest = RandomForestClassifier(random_state = 42, n_jobs= -1)
 forest.fit(X_train_id2, y_train_id)
 # test metrics
 rf_y_pred = forest.predict(X_test_id2)
-print(metrics.confusion_matrix(y_test_id, rf_y_pred))
-# TN FP
-# FN TP
-a = metrics.accuracy_score(y_test_id, rf_y_pred)
-p = metrics.precision_score(y_test_id,rf_y_pred)
-r = metrics.recall_score(y_test_id, rf_y_pred)
 y_predict_prob = forest.predict_proba(X_test_id2)[:, 1]
+
 ra = metrics.roc_auc_score(y_test_id, y_predict_prob)
 pa = metrics.average_precision_score(y_test_id, y_predict_prob)
-print("baseline random forest")
-print(f'accuracy:  {a}')
-print(f'precision: {p}')
-print(f'recall:    {r}')
-print(f'roc auc:   {ra}')
-print(f'pr auc:    {pa}')
-print("\n\n")
 
 
 # use a manually-defined cross-validation method to tune hyperparameters: max_depth and n_estimators
@@ -479,7 +463,6 @@ def manual_fold(k, features_lst, x_df, y_df, min_depth, max_depth, step_depth, m
         prauc = []
         
         for i in range(k):
-            print("Fold number:", i+1)
 
             cv_x_train = x_df.iloc[train_lst[i]]
             cv_x_test = x_df.iloc[test_lst[i]]
@@ -538,22 +521,11 @@ for i in range(5):
 
     tuned_forest = RandomForestClassifier(random_state = 42, n_jobs= -1, max_depth = d, n_estimators = n)
     tuned_forest.fit(X_train_id2, y_train_id.values.ravel())
-
-    # test metrics
-    # rf_y_pred = tuned_forest.predict(X_test_id2)
-    # a = metrics.accuracy_score(y_test_id, rf_y_pred)
-    # p = metrics.precision_score(y_test_id,rf_y_pred)
-    # r = metrics.recall_score(y_test_id, rf_y_pred)
     
     y_predict_prob = tuned_forest.predict_proba(X_test_id2)[:, 1]
     ra = metrics.roc_auc_score(y_test_id, y_predict_prob)
     pa = metrics.average_precision_score(y_test_id, y_predict_prob)
-    print("Model:", i)
-    print('depth ', d, ' trees ', n)
-    print("roc-auc:", ra)
-    print("pr-auc:", pa)
-    print("average score:", (ra+pa)/2)
-    print("\n\n")
+
     if (ra+pa)/2 > best_score:
         best_score = (ra+pa)/2
         best_ind = i
@@ -568,13 +540,10 @@ forest.fit(X_train, y_train.values.ravel())
 y_predict_prob = forest.predict_proba(df_norm_d0_2)[:, 1]
 ra = metrics.roc_auc_score(df_norm_d0['label'], y_predict_prob)
 pa = metrics.average_precision_score(df_norm_d0['label'], y_predict_prob)
-print("prediction on dataset 0")
-print("roc-auc:", ra)
-print("pr-auc:", pa)
-print("average score:", (ra+pa)/2)
-print("\n\n")
 
 pickle.dump(forest, open(output_path, 'wb'))
-pickle.dump(final_features, open('../data/features.info', 'wb'))
-print('Execution successful! The model can now be found in ../data/model.sav')
+pickle.dump(final_features, open('../data/trial_features.info', 'wb'))
+
+print()
+print(f'Execution successful! The model can now be found in {output_path}')
 print()

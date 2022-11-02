@@ -15,6 +15,7 @@ import sys
 import pandas as pd
 import numpy as np
 import pickle
+import json
 
 from sklearn import preprocessing
 from imblearn.over_sampling import RandomOverSampler
@@ -29,7 +30,8 @@ except:
 
 try:
     path = sys.argv[1]
-    df = pd.read_json(path, lines=True)
+    with open(path, "r") as read_file:
+        data = [json.loads(l) for l in read_file]
 except:
     print('Error: please input a valid direct RNA-Seq data path e.g. ../data/test_data.json')
     sys.exit(1)
@@ -50,25 +52,22 @@ def split(x):
 
 # expand the nested dictionary
 transcript_list, position_list, sevenmers_list, reads_list = [], [], [], []
-for colname in df.columns:
-    test = df[colname].dropna()
-    for row in test: # each row is a dictionary
-        position, dic = split(row)
-        sevenmers, reads = split(dic)
-        
-        transcript_list.append(colname)
-        position_list.append(position)
-        sevenmers_list.append(sevenmers)
-        reads_list.append(reads)
+for line in data:
+    t, dic = split(line)
+    p, dic = split(dic)
+    s, reads = split(dic)
+    
+    for read in reads:
+        transcript_list.append(t)
+        position_list.append(p)
+        sevenmers_list.append(s)
+        reads_list.append(read)
 
-df = pd.DataFrame()
-df['transcript_id'] = transcript_list
-df['transcript_position'] = position_list
-df['sevenmers'] = sevenmers_list
-df['reads'] = reads_list
-df = df.explode('reads') # each row is one read
+df = pd.DataFrame.from_dict({'transcript_id': transcript_list, 
+                             'transcript_position': position_list, 
+                             'sevenmers': sevenmers_list, 
+                             'reads': reads_list})
 
-# Expand reads
 df1 = pd.DataFrame(df['reads'].to_list())
 df3 = pd.concat([df.reset_index(), df1], axis=1)
 df3 = df3.rename(columns = {0:'dwelling_time_1', 1:'sd_current_1', 2:'mean_current_1',
@@ -200,5 +199,8 @@ y_df = join_pred(df, y_pred)
 
 # Export to csv
 y_df.to_csv(output_path, index=False)
+print()
 print(f'Excecution successful! The prediction can now be found in {output_path}')
 print()
+
+print(y_df.head())
