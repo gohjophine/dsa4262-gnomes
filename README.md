@@ -44,8 +44,9 @@ Here are all the commands needed that you can copy:
 
 ```
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
+cd dsa4262-gnomes
 pip install -r requirements.txt
-cd dsa4262-gnomes/src
+cd src
 python make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
@@ -118,8 +119,9 @@ Here are all the commands needed that you can copy:
 
 ```
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
+cd dsa4262-gnomes
 pip install -r requirements.txt
-cd dsa4262-gnomes/src
+cd src
 python train_model.py ../data/data.json ../data/data/data.info
 python make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
