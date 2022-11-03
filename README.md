@@ -167,11 +167,26 @@ python make_prediction.py ../data/test_data.json ../data/prediction.csv
 
 ## Output
 
-View the first few lines of the output <br />
+The first few lines of the output should be printed upon successful execution. It should be the same as the output given by the following command <br />
 
 ```
 head ../data/prediction.csv
 ```
+
+An example of successful execution should look similar to below: <br />
+
+```
+Excecution successful! The prediction can now be found in ../data/prediction.csv
+
+     transcript_id  transcript_position     score
+0  ENST00000640218                 1020  0.159285
+1  ENST00000640218                 1072  0.145234
+2  ENST00000640218                 1083  0.068626
+3  ENST00000640218                 1293  0.076629
+4  ENST00000640218                 1325  0.194899
+```
+
+- 'score': Describes the probability that the given position harbours m6A modification, for each 'transcript_id' and 'transcript_position'
 
 # Contributors
 
@@ -198,6 +213,10 @@ Chen, T., & Guestrin, C. (2016). XGBoost: A Scalable Tree Boosting System. In Pr
 Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
 
 Biggs, J., & Madnani, N. (2022, September 25). Factor Analyzer. program documentation, Educational Testing Service. Retrieved from https://factor-analyzer.readthedocs.io/en/latest/factor_analyzer.html.
+
+Waskom, M. L. (2021). Seaborn: Statistical data visualization. Journal of Open Source Software, 6(60), 3021. https://doi.org/10.21105/joss.03021
+
+Plotly Technologies Inc. Collaborative data science. Montréal, QC, 2015. https://plot.ly.
 
 # Software License
 
