@@ -156,7 +156,7 @@ cd src
 2. Run `train_model.py` with 2 arguments (path to datasets) <br /> `python train_model.py <path to direct RNA-Seq data> <path to m6a labels>`
 
 ```
-python train_model.py ../data/data.json ../data/data/data.info
+python train_model.py ../data/data.json ../data/data.info
 ```
 
 3. Run `make_prediction.py` with 2 arguments (path to direct RNA-Seq test data, output path) <br /> `python make_prediction.py <path to direct RNA-Seq test data> <output path>`
