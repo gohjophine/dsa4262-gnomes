@@ -1,0 +1,63 @@
+# be in the directory where you have the data and src folder
+
+mkdir task2
+cd task2
+
+# list all files in m6Anet folder
+aws s3 ls --no-sign-request s3://sg-nex-data/data/processed_data/m6Anet/
+
+# download all files in m6Anet folder
+aws s3 sync --no-sign-request s3://sg-nex-data/data/processed_data/m6Anet/ .
+
+# list everything to ensure that all files are inside
+ls -lR
+
+# collate all files
+mv ./SGNex_A549_directRNA_replicate5_run1/data.json A549_directRNA_replicate5_run1.json
+mv ./SGNex_A549_directRNA_replicate6_run1/data.json A549_directRNA_replicate6_run1.json
+mv ./SGNex_Hct116_directRNA_replicate3_run1/data.json Hct116_directRNA_replicate3_run1.json
+mv ./SGNex_Hct116_directRNA_replicate3_run4/data.json Hct116_directRNA_replicate3_run4.json
+mv ./SGNex_Hct116_directRNA_replicate4_run3/data.json Hct116_directRNA_replicate4_run3.json
+mv ./SGNex_HepG2_directRNA_replicate5_run2/data.json HepG2_directRNA_replicate5_run2.json
+mv ./SGNex_HepG2_directRNA_replicate6_run1/data.json HepG2_directRNA_replicate6_run1.json
+mv ./SGNex_K562_directRNA_replicate4_run1/data.json K562_directRNA_replicate4_run1.json
+mv ./SGNex_K562_directRNA_replicate5_run1/data.json K562_directRNA_replicate5_run1.json
+mv ./SGNex_K562_directRNA_replicate6_run1/data.json K562_directRNA_replicate6_run1.json
+mv ./SGNex_MCF7_directRNA_replicate3_run1/data.json MCF7_directRNA_replicate3_run1.json
+mv ./SGNex_MCF7_directRNA_replicate4_run1/data.json MCF7_directRNA_replicate4_run1.json
+
+# remove the folders
+rm -r SGNex_A549_directRNA_replicate5_run1
+rm -r SGNex_A549_directRNA_replicate6_run1
+rm -r SGNex_Hct116_directRNA_replicate3_run1
+rm -r SGNex_Hct116_directRNA_replicate3_run4
+rm -r SGNex_Hct116_directRNA_replicate4_run3
+rm -r SGNex_HepG2_directRNA_replicate5_run2
+rm -r SGNex_HepG2_directRNA_replicate6_run1
+rm -r SGNex_K562_directRNA_replicate4_run1
+rm -r SGNex_K562_directRNA_replicate5_run1
+rm -r SGNex_K562_directRNA_replicate6_run1
+rm -r SGNex_MCF7_directRNA_replicate3_run1
+rm -r SGNex_MCF7_directRNA_replicate4_run1
+
+cd ../src
+
+# open jupyter notebook (task2.ipynb) to make predictions on the files
+jupyter notebook
+
+# A549: Lung
+# Hct116: Colon
+# HepG2: Liver
+# K562: Leukocytes
+# MCF7: Breast
+
+
+### THINGS TO NOTE FOR DATA VISUALISATION ###
+# have titles, label the axis, scale
+# figure caption to describe more details
+# figure should hold true to the message, don't mislead reader
+# use box, line, scatter
+# 3d, pie charts NO NO
+# minimise white space in the plots
+# remove anything useless: grid lines, unnecessary colours
+# same theme please (pls use a nice package e.g. sns, plotly hohoho)
