@@ -44,28 +44,48 @@ Here are all the commands needed that you can copy:
 
 ```
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
+sudo apt install python3-pip
 cd dsa4262-gnomes
 pip install -r requirements.txt
 cd src
-python make_prediction.py ../data/test_data.json ../data/prediction.csv
+python3 make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
 
-### Users Installation
+### Installation
 
-1. Clone the git repository onto an AWS machine <br />
+1. There are two ways of connecting to the AWS machine to run the code <br />
+   i. Connect to the machine via the Research Gateway portal <br />
+   Click on the `start` button → click on the `SSH/RDP` button → select your pem file and connect
+
+   ii. Connect to the machine via ssh on your local laptop <br/>
+   The IP address of the AWS machine can be found under the Outputs section: `instanceIPAddress`. Open your local terminal/powershell and type the following line <br/>
+   `ssh -i '/path/to/filename' -L 8888:localhost:8888 ubuntu@<ip_address>` <br/>
+   For example, <br/>
+   on MacOS: `ssh -i '/Users/folder/filename.pem' -L 8888:localhost:8888 ubuntu@175.41.159.95` <br/>
+   on Windows: `ssh -i 'C:\Users\folder\filename.pem' -L 8888:localhost:8888 ubuntu@175.41.159.95` <br/>
+
+   Note: for MacOS users, you may need to run `chmod 400 /path/to/filename.pem` once to resolve the unprotected private key file error.
+
+2. Clone the git repository onto an AWS machine <br />
 
 ```
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
 ```
 
-2. Change your directory to the cloned respository folder <br />
+3. Install pip in the AWS machine
+
+```
+sudo apt install python3-pip
+```
+
+4. Change your directory to the cloned repository folder <br />
 
 ```
 cd dsa4262-gnomes
 ```
 
-3. Install the required python packages <br />
+5. Install the required python packages <br />
 
 ```
 pip install -r requirements.txt
@@ -89,7 +109,7 @@ python make_prediction.py ../data/test_data.json ../data/prediction.csv
 
 All Jupyter notebooks can be found in the `src` folder and the data required can be found in the `data` folder.
 
-To follow through the process of the project, you may refer to the notebooks in the following order:
+To follow through the process of the project for task 1, you may refer to the notebooks in the following order:
 
 1. `read_json.ipynb`
 2. `feature_engineering.ipynb`
@@ -119,15 +139,22 @@ Here are all the commands needed that you can copy:
 
 ```
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
+sudo apt install python3-pip
 cd dsa4262-gnomes
 pip install -r requirements.txt
 cd src
-python train_model.py ../data/data.json ../data/data/data.info
-python make_prediction.py ../data/test_data.json ../data/prediction.csv
+python3 train_model.py ../data/data.json ../data/data/data.info
+python3 make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
 
-### Developers Installation
+To follow through the process of the project for task 2, you may refer to the notebooks in the following order:
+
+1. `task2.txt`
+2. `task2.ipynb`
+3. `task2_visualisations.ipynb`
+
+### Installation
 
 1. Clone the git repository onto an AWS machine <br />
 
@@ -135,13 +162,19 @@ head ../data/prediction.csv
 git clone https://github.com/gohjophine/dsa4262-gnomes.git
 ```
 
-2. Change your directory to the cloned respository folder <br />
+2. Install pip in the AWS machine
+
+```
+sudo apt install python3-pip
+```
+
+3. Change your directory to the cloned repository folder <br />
 
 ```
 cd dsa4262-gnomes
 ```
 
-3. Install the required python packages <br />
+4. Install the required python packages <br />
 
 ```
 pip install -r requirements.txt
@@ -158,13 +191,13 @@ cd src
 2. Run `train_model.py` with 2 arguments (path to datasets) <br /> `python train_model.py <path to direct RNA-Seq data> <path to m6a labels>`
 
 ```
-python train_model.py ../data/data.json ../data/data.info
+python3 train_model.py ../data/data.json ../data/data.info
 ```
 
 3. Run `make_prediction.py` with 2 arguments (path to direct RNA-Seq test data, output path) <br /> `python make_prediction.py <path to direct RNA-Seq test data> <output path>`
 
 ```
-python make_prediction.py ../data/test_data.json ../data/prediction.csv
+python3 make_prediction.py ../data/test_data.json ../data/prediction.csv
 ```
 
 ## Output
@@ -222,10 +255,4 @@ Plotly Technologies Inc. Collaborative data science. Montréal, QC, 2015. https:
 
 # Software License
 
-Copyright 2022 Team Gnomes
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+This project is licensed under the [MIT License](LICENSE).
