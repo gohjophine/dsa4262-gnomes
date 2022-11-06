@@ -62,7 +62,9 @@ head ../data/prediction.csv
    `ssh -i '/path/to/filename' -L 8888:localhost:8888 ubuntu@<ip_address>` <br/>
    For example, <br/>
    on MacOS: `ssh -i '/Users/folder/filename.pem' -L 8888:localhost:8888 ubuntu@175.41.159.95` <br/>
-   on Windows: `ssh -i 'C:\Users\folder\filename.pem' -L 8888:localhost:8888 ubuntu@175.41.159.95`
+   on Windows: `ssh -i 'C:\Users\folder\filename.pem' -L 8888:localhost:8888 ubuntu@175.41.159.95` <br/>
+   
+   Note: for MacOS users, you may need to run `chmod 400 /path/to/filename.pem` once to resolve the unprotected private key file error.
 
 2. Clone the git repository onto an AWS machine <br />
 
@@ -75,7 +77,7 @@ git clone https://github.com/gohjophine/dsa4262-gnomes.git
 sudo apt install python3-pip
 ```
 
-4. Change your directory to the cloned respository folder <br />
+4. Change your directory to the cloned repository folder <br />
 
 ```
 cd dsa4262-gnomes
@@ -144,6 +146,13 @@ python3 make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
 
+To follow through the process of the project for task 2, you may refer to the notebooks in the following order:
+
+1. `task2.txt`
+2. `task2.ipynb`
+3. `task2_visualisations.ipynb`
+
+
 ### Installation
 
 1. Clone the git repository onto an AWS machine <br />
@@ -157,7 +166,7 @@ git clone https://github.com/gohjophine/dsa4262-gnomes.git
 sudo apt install python3-pip
 ```
 
-3. Change your directory to the cloned respository folder <br />
+3. Change your directory to the cloned repository folder <br />
 
 ```
 cd dsa4262-gnomes
