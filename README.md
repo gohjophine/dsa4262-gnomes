@@ -52,7 +52,7 @@ python3 make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
 
-### Installation
+### Users Installation
 
 1. There are two ways of connecting to the AWS machine to run the code <br />
    i. Connect to the machine via the Research Gateway portal <br />
@@ -154,7 +154,7 @@ To follow through the process of the project for task 2, you may refer to the no
 2. `task2.ipynb`
 3. `task2_visualisations.ipynb`
 
-### Installation
+### Developers Installation
 
 1. Clone the git repository onto an AWS machine <br />
 
