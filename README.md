@@ -6,12 +6,12 @@ Hi, this is Team Gnomes! This repository is a project done for the module DSA426
 
 - [Project Description](#Project-Description)
 - [Usage](#Usage)
-  - [User's Guide](#User's-Guide)
-    - [Installation](#Installation)
-    - [Software Execution](#Software-Execution)
-  - [Developer's Guide](#Developer's-Guide)
-    - [Installation](#Installation)
-    - [Software Execution](#Software-Execution)
+  - [Users Guide](#Users-Guide)
+    - [Installation](#Users-Installation)
+    - [Software Execution](#Users-Software-Execution)
+  - [Developers Guide](#Developers-Guide)
+    - [Installation](#Developers-Installation)
+    - [Software Execution](#Developers-Software-Execution)
   - [Output](#Output)
 - [Contributors](#Contributors)
 - [Citation](#Citation)
@@ -30,7 +30,7 @@ Task 2: Prediction of m6A sites in all SG-NEx direct RNA-Seq samples
 
 # Usage
 
-## User's Guide
+## Users Guide
 
 `make_prediction.py`
 
@@ -51,7 +51,7 @@ python make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
 
-### Installation
+### Users Installation
 
 1. Clone the git repository onto an AWS machine <br />
 
@@ -71,7 +71,7 @@ cd dsa4262-gnomes
 pip install -r requirements.txt
 ```
 
-### Software Execution
+### Users Software Execution
 
 1. Change your directory to the `src` folder of the cloned repository <br />
 
@@ -85,7 +85,7 @@ cd src
 python make_prediction.py ../data/test_data.json ../data/prediction.csv
 ```
 
-## Developer's Guide
+## Developers Guide
 
 All Jupyter notebooks can be found in the `src` folder and the data required can be found in the `data` folder.
 
@@ -127,7 +127,7 @@ python make_prediction.py ../data/test_data.json ../data/prediction.csv
 head ../data/prediction.csv
 ```
 
-### Installation
+### Developers Installation
 
 1. Clone the git repository onto an AWS machine <br />
 
@@ -147,7 +147,7 @@ cd dsa4262-gnomes
 pip install -r requirements.txt
 ```
 
-### Software Execution
+### Developers Software Execution
 
 1. Change your directory to the `src` folder of the cloned repository <br />
 
